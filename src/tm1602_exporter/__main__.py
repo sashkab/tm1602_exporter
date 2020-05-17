@@ -1,4 +1,6 @@
 """Main tool"""
+from time import sleep
+
 import prometheus_client
 
 from . import Collector
@@ -11,7 +13,7 @@ def main():
     print("serving on :9116")
     prometheus_client.start_http_server(9116)
     while True:
-        pass
+        sleep(5)
 
 
 if __name__ == "__main__":
