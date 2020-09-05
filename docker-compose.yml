@@ -14,7 +14,7 @@ services:
         --web.console.templates=/usr/share/prometheus/consoles
         --storage.tsdb.retention.time=365d
     ports:
-      - 127.0.0.1:9090:9090
+      - 9090:9090
     restart: always
 
   tm1602_exporter:
