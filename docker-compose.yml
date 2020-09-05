@@ -25,5 +25,13 @@ services:
       PYTHONUNBUFFERED: 'x'
     restart: always
 
+  blackbox_exporter:
+    image: quay.io/prometheus/blackbox-exporter
+    volumes:
+      - ./blackbox.yml:/etc/blackbox.yml
+    command: --config.file=/etc/blackbox.yml --web.listen-address=:9116
+    restart: always
+
+
 volumes:
   prometheus_data: {}
