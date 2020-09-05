@@ -21,5 +21,13 @@ services:
     image: ghcr.io/sashkab/tm1602_exporter/tm1602-exporter:latest
     restart: always
 
+  blackbox_exporter:
+    image: quay.io/prometheus/blackbox-exporter
+    volumes:
+      - ./blackbox.yml:/etc/blackbox.yml
+    command: --config.file=/etc/blackbox.yml --web.listen-address=:9116
+    restart: always
+
+
 volumes:
   prometheus_data: {}
