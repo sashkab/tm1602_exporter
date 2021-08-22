@@ -1,4 +1,4 @@
-name: Docker
+name: Build tm1602_exporter image
 
 on:
   push:
@@ -7,15 +7,32 @@ on:
     tags:
       - v*
   pull_request:
+    branches:
+      - master
 
 env:
-  IMAGE_NAME: cm600_exporter
+  IMAGE_NAME: tm1602-exporter
 
 jobs:
-  test:
+  push:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
-      - name: Run tests
-        run: |
-          docker build . --file Dockerfile
+    - uses: actions/checkout@v2
+
+    - name: Log into registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - name: Build image
+      run: docker build . --file Dockerfile --tag image
+
+    - name: Push image
+      run: |
+        IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
+        VERSION=$(date "+%Y.%m.%d")
+        echo IMAGE_ID=$IMAGE_ID
+        echo VERSION=$VERSION
+        docker tag image $IMAGE_ID:$VERSION
+        docker push $IMAGE_ID:$VERSION
+        docker tag $IMAGE_ID:$VERSION $IMAGE_ID:latest
+        docker push $IMAGE_ID:latest
