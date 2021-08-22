@@ -13,6 +13,8 @@ FROM python:3.9-alpine
 
 COPY --from=builder /wheel/*.whl /wheel/
 
+ENV PYTHONUNBUFFERED "x"
+
 RUN python3 -mpip install -f /wheel --no-index tm1602_exporter \
     && rm -r /wheel
 

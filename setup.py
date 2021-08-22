@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='tm1602_exporter',
-    version='0.0.2',
+    version='0.0.3',
     description='Arris Touchstone tm1602 Collector for Prometheus',
     author='Aleks Bunin',
     author_email='github@compuix.com',

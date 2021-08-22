@@ -18,11 +18,7 @@ services:
     restart: always
 
   tm1602_exporter:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-    environment:
-      PYTHONUNBUFFERED: 'x'
+    image: ghcr.io/sashkab/tm1602_exporter/tm1602-exporter:latest
     restart: always
 
 volumes:
