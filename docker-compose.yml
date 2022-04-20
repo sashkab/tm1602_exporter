@@ -14,12 +14,20 @@ services:
         --web.console.templates=/usr/share/prometheus/consoles
         --storage.tsdb.retention.time=365d
     ports:
-      - 127.0.0.1:9090:9090
+      - 9090:9090
     restart: always
 
   tm1602_exporter:
     image: ghcr.io/sashkab/tm1602_exporter/tm1602-exporter:latest
     restart: always
+
+  blackbox_exporter:
+    image: quay.io/prometheus/blackbox-exporter
+    volumes:
+      - ./blackbox.yml:/etc/blackbox.yml
+    command: --config.file=/etc/blackbox.yml --web.listen-address=:9116
+    restart: always
+
 
 volumes:
   prometheus_data: {}

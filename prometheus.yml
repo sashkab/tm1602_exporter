@@ -2,3 +2,30 @@ scrape_configs:
     - job_name: tm1602
       static_configs:
           - targets: [tm1602_exporter:9116]
+
+    - job_name: 'pinger'
+      scrape_interval: 1m
+      metrics_path: /probe
+      params:
+          module: [pinger]
+      static_configs:
+          - targets: ['8.8.8.8']
+            labels:
+                group: 'google-dns'
+          - targets: ['1.1.1.1']
+            labels:
+                group: 'cloudflare-dns'
+          - targets: ['67.80.0.1']
+            labels:
+                group: 'optimum-gateway'
+          - targets: ['9.9.9.9']
+            labels:
+                group: 'quad4-dns'
+
+      relabel_configs:
+          - source_labels: [__address__]
+            target_label: __param_target
+          - source_labels: [__param_target]
+            target_label: instance
+          - target_label: __address__
+            replacement: blackbox_exporter:9116
